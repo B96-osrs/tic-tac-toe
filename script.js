@@ -1,4 +1,5 @@
 let playerTurn = 1;
+let headerBox = document.querySelector(".header");
 
 
 const Person = (name) => {
@@ -9,8 +10,9 @@ const Person = (name) => {
 const Player = (name, mark) => {
     const {sayName} = Person(name);
     const getMark = () => mark;
+    const getName = () => name;
 
-    return {sayName, getMark};
+    return {sayName, getMark, getName};
 }
 const Gameboard = (function() {
     let gameArray = [];
@@ -35,21 +37,38 @@ const Gameboard = (function() {
 function updateDisplay() {
     console.log("updating display");
     let i = 0;
-//     for(let i = 1; i <= Gameboard.gameArray.length; i++) {
-//         let tile = document.querySelector("[data-key= `${i}`]")
-//         console.log("current tile to update: " + tile);
-//         tile.textContent = Gameboard.gameArray[i];
-//     }
-
     let nodeList = document.querySelectorAll("[data-key]");
-    console.log(nodeList);
     nodeList.forEach(element => {
         element.textContent = Gameboard.gameArray[i];
         i = i+1;
     });
 }
 
+function checkForWin() {
+    if((Gameboard.gameArray[0] === Gameboard.gameArray[1] &&
+       Gameboard.gameArray[0] === Gameboard.gameArray[2]) ||
+       (Gameboard.gameArray[3] === Gameboard.gameArray[4] &&    //check rows for win
+        Gameboard.gameArray[3] === Gameboard.gameArray[5]) ||
+       (Gameboard.gameArray[6] === Gameboard.gameArray[7] &&
+        Gameboard.gameArray[6] === Gameboard.gameArray[8]) ||
 
+       (Gameboard.gameArray[0] === Gameboard.gameArray[3] &&
+        Gameboard.gameArray[0] === Gameboard.gameArray[6]) ||
+       (Gameboard.gameArray[1] === Gameboard.gameArray[4] &&   //check columns for win
+        Gameboard.gameArray[1] === Gameboard.gameArray[7]) ||
+       (Gameboard.gameArray[2] === Gameboard.gameArray[5] &&
+        Gameboard.gameArray[2] === Gameboard.gameArray[8]) ||
+
+        (Gameboard.gameArray[0] === Gameboard.gameArray[4] &&
+         Gameboard.gameArray[0] === Gameboard.gameArray[8]) ||
+        (Gameboard.gameArray[2] === Gameboard.gameArray[4] &&
+         Gameboard.gameArray[2] === Gameboard.gameArray[6])) {
+            return true;
+         }
+         else {
+            return false;
+         }
+}
 
 
 const player1 = Player("B96","X");
@@ -70,11 +89,17 @@ document.addEventListener("click", function (event) {
             Gameboard.addMark(num-1,player1.getMark());
             updateDisplay();
             console.log("playerturn 1: " + Gameboard.gameArray);
+            if(checkForWin() === true) {
+                headerBox.textContent = "Winner: " + player1.getName();
+            }
         }
         else {
             Gameboard.addMark(num-1,player2.getMark());
             updateDisplay();
             console.log("playerturn 2: " + Gameboard.gameArray);
+            if(checkForWin() === true) {
+                headerBox.textContent = "Winner: " + player2.getName();
+            }
         }
     }
 });
