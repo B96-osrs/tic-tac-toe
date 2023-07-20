@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    background-color: grey;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: grid;
+}
+.row {
+    display: flex;
+
+}
+
+.tile {
+    margin: 8px;
+    background-color: white;
+    height: 200px;
+    width: 200px;
+    font-size: 36px;
+    font-weight: bold;
+}
+.tile:hover {
+    background-color: orange;
+}
