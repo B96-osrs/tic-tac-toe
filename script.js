@@ -44,30 +44,39 @@ function updateDisplay() {
     });
 }
 
-function checkForWin() {
-    if((Gameboard.gameArray[0] === Gameboard.gameArray[1] &&
-       Gameboard.gameArray[0] === Gameboard.gameArray[2]) ||
-       (Gameboard.gameArray[3] === Gameboard.gameArray[4] &&    //check rows for win
-        Gameboard.gameArray[3] === Gameboard.gameArray[5]) ||
-       (Gameboard.gameArray[6] === Gameboard.gameArray[7] &&
-        Gameboard.gameArray[6] === Gameboard.gameArray[8]) ||
+function checkForWin(mark) {
+    if((Gameboard.gameArray[0] === mark &&
+       Gameboard.gameArray[1] === mark &&       
+       Gameboard.gameArray[2]=== mark) ||
+       (Gameboard.gameArray[3] === mark &&
+       Gameboard.gameArray[4] === mark &&          //check rows for win
+       Gameboard.gameArray[5]=== mark) ||
+       (Gameboard.gameArray[6] === mark &&          
+       Gameboard.gameArray[7] === mark &&
+       Gameboard.gameArray[8]=== mark) ||
+       
+       (Gameboard.gameArray[0] === mark &&
+       Gameboard.gameArray[3] === mark &&       
+       Gameboard.gameArray[6]=== mark) ||
+       (Gameboard.gameArray[1] === mark &&
+       Gameboard.gameArray[4] === mark &&          //check columns for win
+       Gameboard.gameArray[7]=== mark) ||
+       (Gameboard.gameArray[2] === mark &&          
+       Gameboard.gameArray[5] === mark &&
+       Gameboard.gameArray[8]=== mark) ||
 
-       (Gameboard.gameArray[0] === Gameboard.gameArray[3] &&
-        Gameboard.gameArray[0] === Gameboard.gameArray[6]) ||
-       (Gameboard.gameArray[1] === Gameboard.gameArray[4] &&   //check columns for win
-        Gameboard.gameArray[1] === Gameboard.gameArray[7]) ||
-       (Gameboard.gameArray[2] === Gameboard.gameArray[5] &&
-        Gameboard.gameArray[2] === Gameboard.gameArray[8]) ||
+       (Gameboard.gameArray[0] === mark &&
+       Gameboard.gameArray[4] === mark &&       
+       Gameboard.gameArray[8]=== mark) ||           //check for diagonals
+       (Gameboard.gameArray[2] === mark &&
+       Gameboard.gameArray[4] === mark &&       
+       Gameboard.gameArray[6]=== mark)) {
 
-        (Gameboard.gameArray[0] === Gameboard.gameArray[4] &&
-         Gameboard.gameArray[0] === Gameboard.gameArray[8]) ||
-        (Gameboard.gameArray[2] === Gameboard.gameArray[4] &&
-         Gameboard.gameArray[2] === Gameboard.gameArray[6])) {
-            return true;
-         }
-         else {
+       return true;
+    }
+    else {
             return false;
-         }
+    }
 }
 
 
@@ -89,7 +98,7 @@ document.addEventListener("click", function (event) {
             Gameboard.addMark(num-1,player1.getMark());
             updateDisplay();
             console.log("playerturn 1: " + Gameboard.gameArray);
-            if(checkForWin() === true) {
+            if(checkForWin(player1.getMark()) === true) {
                 headerBox.textContent = "Winner: " + player1.getName();
             }
         }
@@ -97,7 +106,7 @@ document.addEventListener("click", function (event) {
             Gameboard.addMark(num-1,player2.getMark());
             updateDisplay();
             console.log("playerturn 2: " + Gameboard.gameArray);
-            if(checkForWin() === true) {
+            if(checkForWin(player2.getMark()) === true) {
                 headerBox.textContent = "Winner: " + player2.getName();
             }
         }
