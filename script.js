@@ -1,13 +1,13 @@
-let playerTurn = 1;
+let startContainer = document.querySelector(".start-container");
 let headerBox = document.querySelector(".header");
-let gameOngoing = false;
-let marksPlaced = 0;
-let popupWindow = document.querySelector(".popup");
 let container = document.querySelector(".container");
+let popupWindow = document.querySelector(".popup");
 let restartButton = document.getElementById("restart-button");
 let winMessage = document.querySelector(".win-message");
 let startButton = document.getElementById("start-button");
-let startContainer = document.querySelector(".start-container");
+let playerTurn = 1;
+let marksPlaced = 0;
+let gameOngoing = false;
 
 const Person = (name) => {
     const sayName = () => console.log(`my name is ${name}`);
@@ -28,6 +28,7 @@ const Gameboard = (function() {
         if(!(gameArray[position] === "X" || gameArray[position] === "O")) {
             gameArray[position] = playerMark;
             marksPlaced++;
+            console.log("mark placed is: " + playerMark);
             if(playerTurn === 1) {
                 playerTurn = 2;
             }
@@ -35,116 +36,122 @@ const Gameboard = (function() {
                 playerTurn = 1;
             }
         }
+        console.log("current playerturn: " + playerTurn);
 
+    }
+
+    function checkForWin(mark) {
+        if((Gameboard.gameArray[0] === mark &&
+           Gameboard.gameArray[1] === mark &&       
+           Gameboard.gameArray[2]=== mark) ||
+           (Gameboard.gameArray[3] === mark &&
+           Gameboard.gameArray[4] === mark &&          //check rows for win
+           Gameboard.gameArray[5]=== mark) ||
+           (Gameboard.gameArray[6] === mark &&          
+           Gameboard.gameArray[7] === mark &&
+           Gameboard.gameArray[8]=== mark) ||
+           
+           (Gameboard.gameArray[0] === mark &&
+           Gameboard.gameArray[3] === mark &&       
+           Gameboard.gameArray[6]=== mark) ||
+           (Gameboard.gameArray[1] === mark &&
+           Gameboard.gameArray[4] === mark &&          //check columns for win
+           Gameboard.gameArray[7]=== mark) ||
+           (Gameboard.gameArray[2] === mark &&          
+           Gameboard.gameArray[5] === mark &&
+           Gameboard.gameArray[8]=== mark) ||
+    
+           (Gameboard.gameArray[0] === mark &&
+           Gameboard.gameArray[4] === mark &&       
+           Gameboard.gameArray[8]=== mark) ||           //check for diagonals
+           (Gameboard.gameArray[2] === mark &&
+           Gameboard.gameArray[4] === mark &&       
+           Gameboard.gameArray[6]=== mark)) {
+           gameOngoing = false;
+           displayController.showPopup();
+           return "win";
+        }
+        else if(marksPlaced === 9) {
+            displayController.showPopup();
+            return "tie";
+        }
+        else {
+                return false;
+        }
     }
 
     console.log("Gameboard accessed");
-    return {gameArray, addMark};
+    return {gameArray,addMark, checkForWin};
 })();
 
-function updateDisplay() {
-    console.log("updating display");
-    let i = 0;
-    let nodeList = document.querySelectorAll("[data-key]");
-    nodeList.forEach(element => {
-        element.textContent = Gameboard.gameArray[i];
-        i = i+1;
-    });
-}
+const displayController = (function() {
 
-function showPopup() {
-    popupWindow.style.visibility = "visible";
-    container.style.webkitFilter = "blur(3px) brightness(0.40)";
-}
-
-function hidePopup() {
-    popupWindow.style.visibility = "hidden";
-    container.style.webkitFilter = "";
-}
-
-function showGame() {
-    container.style.visibility = "visible";
-    startContainer.style.visibility = "hidden";
-    gameOngoing = true;
-}
-
-
-function resetGame() {
-    marksPlaced = 0;
-    Gameboard.gameArray.length = 0;
-    updateDisplay();
-    console.log(Gameboard.gameArray);
-}
-
-function checkForWin(mark) {
-    console.log("marks placed: " + marksPlaced);
-    if((Gameboard.gameArray[0] === mark &&
-       Gameboard.gameArray[1] === mark &&       
-       Gameboard.gameArray[2]=== mark) ||
-       (Gameboard.gameArray[3] === mark &&
-       Gameboard.gameArray[4] === mark &&          //check rows for win
-       Gameboard.gameArray[5]=== mark) ||
-       (Gameboard.gameArray[6] === mark &&          
-       Gameboard.gameArray[7] === mark &&
-       Gameboard.gameArray[8]=== mark) ||
-       
-       (Gameboard.gameArray[0] === mark &&
-       Gameboard.gameArray[3] === mark &&       
-       Gameboard.gameArray[6]=== mark) ||
-       (Gameboard.gameArray[1] === mark &&
-       Gameboard.gameArray[4] === mark &&          //check columns for win
-       Gameboard.gameArray[7]=== mark) ||
-       (Gameboard.gameArray[2] === mark &&          
-       Gameboard.gameArray[5] === mark &&
-       Gameboard.gameArray[8]=== mark) ||
-
-       (Gameboard.gameArray[0] === mark &&
-       Gameboard.gameArray[4] === mark &&       
-       Gameboard.gameArray[8]=== mark) ||           //check for diagonals
-       (Gameboard.gameArray[2] === mark &&
-       Gameboard.gameArray[4] === mark &&       
-       Gameboard.gameArray[6]=== mark)) {
-       gameOngoing = false;
-       showPopup();
-       return "win";
+    function updateDisplay() {
+        console.log("updating display");
+        let i = 0;
+        let nodeList = document.querySelectorAll("[data-key]");
+        nodeList.forEach(element => {
+            element.textContent = Gameboard.gameArray[i];
+            i = i+1;
+        });
     }
-    else if(marksPlaced === 9) {
-        showPopup();
-        return "tie";
+
+    function showPopup() {
+        popupWindow.style.visibility = "visible";
+        container.style.webkitFilter = "blur(3px) brightness(0.40)";
     }
-    else {
-            return false;
+
+    function hidePopup() {
+        popupWindow.style.visibility = "hidden";
+        container.style.webkitFilter = "";
     }
-}
+
+    function showGame() {
+        container.style.visibility = "visible";
+        startContainer.style.visibility = "hidden";
+        gameOngoing = true;
+    }
+
+    function resetGame() {
+        marksPlaced = 0;
+        Gameboard.gameArray.length = 0;
+        displayController.updateDisplay();
+        console.log("game was reset");
+        console.log("marks placed: " + marksPlaced);
+        console.log("current player turn: " + playerTurn);
+    }
+
+    return {updateDisplay,showPopup,hidePopup,showGame,resetGame};
+
+})();
+
 let player1 = Player("player1","X");
 let player2 = Player("player2","O");
-console.log(Gameboard.gameArray);
 
 document.addEventListener("click", function (event) {
     if(gameOngoing === true) {
         if(event.target.matches(".tile")) {
             let num = parseInt(event.target.dataset.key);
             console.log(event.target);
+            console.log("current player turn is: " + playerTurn);
             if(playerTurn === 1) {
-                console.log(num);
                 Gameboard.addMark(num-1,player1.getMark());
-                updateDisplay();
-                console.log("playerturn 1: " + Gameboard.gameArray);
-                if(checkForWin(player1.getMark()) === "win") {
+                displayController.updateDisplay();
+                if(Gameboard.checkForWin(player1.getMark()) === "win") {
                     winMessage.textContent = "Winner: " + player1.getName();
                 }
-                if(checkForWin(player1.getMark()) === "tie") {
+                if(Gameboard.checkForWin(player1.getMark()) === "tie") {
                     winMessage.textContent = "Tie";
                 }
             }
             else {
+                console.log("code that never runs");
                 Gameboard.addMark(num-1,player2.getMark());
-                updateDisplay();
-                console.log("playerturn 2: " + Gameboard.gameArray);
-                if(checkForWin(player2.getMark()) === "win") {
+                displayController.updateDisplay();
+                if(Gameboard.checkForWin(player2.getMark()) === "win") {
                     winMessage.textContent = "Winner: " + player2.getName();
                 }
-                if(checkForWin(player2.getMark()) === "tie") {
+                if(Gameboard.checkForWin(player2.getMark()) === "tie") {
                     winMessage.textContent = "Tie";
                 }
             }
@@ -152,8 +159,8 @@ document.addEventListener("click", function (event) {
     }
 });
 restartButton.addEventListener("click", function (event) {
-    resetGame();
-    hidePopup();
+    displayController.resetGame();
+    displayController.hidePopup();
     gameOngoing = true;
 });
 
@@ -165,7 +172,7 @@ startButton.addEventListener("click",function(event) {
         player2 = Player(inputTwo.value,"O");
         console.log(player1.getName());
         console.log(player2.getName());
-        showGame();
+        displayController.showGame();
     }
 });
 

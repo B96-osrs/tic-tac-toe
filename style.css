@@ -3,16 +3,19 @@
 }
 body {
     display: flex;
+    flex-direction: column;
     background-color:#0c4a6e;
     justify-content: center;
     align-items: center;
     height: 100vh;
     padding: 12px;
+    font-family: "Roboto", sans-serif;
 }
 
 .container {
     display: grid;
     grid-template-rows: repeat(4,1fr);
+    visibility: hidden;
 }
 .row {
     display: flex;
@@ -22,12 +25,13 @@ body {
 .tile {
     margin: 4px;
     background-color: white;
-    height: 200px;
-    width: 200px;
-    font-size: 36px;
+    height: 160px;
+    width: 160px;
+    font-size: 48px;
     font-weight: bold;
     border-style: none;
     border-radius: 8px;
+    color: rgb(22, 22, 22);
 }
 .tile:hover {
     background-color:#eab308;
@@ -39,4 +43,94 @@ body {
     font-weight: bold;
     justify-content: center;
     align-items: center;
+    padding: 48px;
+    color: #eab308;
 }
+
+.popup {
+    display: flex;
+    width: 500px;
+    height: 250px;
+    background-color:#0c4a6e;
+    flex-direction: column;
+    gap: 18px;
+    padding: 32px;
+    border-radius: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    visibility: hidden;
+    box-shadow: 0 0 30px 3px rgba(255,255,255);
+    color:white;
+    align-items: center;
+    font-size:32px;
+    justify-content: center;
+}
+#restart-button {
+    border-style: none;
+    padding: 18px;
+    padding-left: 32px;
+    padding-right: 32px;
+    border-radius: 8px;
+    background-color:#eab308;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#restart-button:hover,
+#start-button:hover {
+    background-color: black;
+    color: #eab308;
+    transform: scale(1.08);
+    cursor: pointer;
+}
+
+.start-container {
+    display: flex;
+    width: 500px;
+    height: 250px;
+    background-color:#0c4a6e;
+    flex-direction: column;
+    padding: 32px;
+    border-radius: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color:white;
+    font-size:32px;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+}
+#start-button {
+    border-style: none;
+    padding: 18px;
+    padding-left: 32px;
+    padding-right: 32px;
+    border-radius: 8px;
+    background-color:#eab308;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 16px;
+}
+ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    gap: 12px;
+}
+li {
+    display: flex;
+    gap: 16px;
+}
+#player1,
+#player2 {
+    height: 32px;
+    border-radius: 4px;
+    border-style: none;
+    outline-color:#eab308
+}
+

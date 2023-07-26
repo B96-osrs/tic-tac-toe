@@ -8,9 +8,9 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-
+   <div class="header">tic tac toe</div> 
    <div class="container">
-    <div class="header">Game Running</div> 
+    
     <div class="row">
         <button class="tile" data-key="1"></button>
         <button class="tile" data-key="2"></button>
@@ -26,6 +26,23 @@
         <button class="tile" data-key="8"></button>
         <button class="tile" data-key="9"></button>
     </div>
+   </div>
+   <div class="start-container">
+        <ul>
+            <li>
+                <label for="player1">Player 1:</label>
+                <input type="text" id="player1" required>
+            </li>
+            <li>
+                <label for="player2">Player 2:</label>
+                <input type="text" id="player2" required>
+            </li>
+        </ul>
+        <button type="submit" id="start-button" class="button">Start Game</button>
+   </div>
+   <div class="popup">
+        <div class="win-message">Player Wins</div>
+        <button id="restart-button">Restart</button>
    </div>
 </body>
 </html>
