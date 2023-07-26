@@ -9,7 +9,6 @@ let winMessage = document.querySelector(".win-message");
 let startButton = document.getElementById("start-button");
 let startContainer = document.querySelector(".start-container");
 
-
 const Person = (name) => {
     const sayName = () => console.log(`my name is ${name}`);
     return {sayName};
@@ -20,7 +19,7 @@ const Player = (name, mark) => {
     const getMark = () => mark;
     const getName = () => name;
 
-    return {sayName, getMark, getName};
+    return {sayName, getMark, getName, name};
 }
 const Gameboard = (function() {
     let gameArray = [];
@@ -66,7 +65,7 @@ function hidePopup() {
 function showGame() {
     container.style.visibility = "visible";
     startContainer.style.visibility = "hidden";
-    console.log("star game button was clicked");
+    gameOngoing = true;
 }
 
 
@@ -117,15 +116,8 @@ function checkForWin(mark) {
             return false;
     }
 }
-
-
-const player1 = Player("B96","X");
-const player2 = Player("Tunicolo","O");
-
-player1.sayName();
-console.log(player1.getMark());
-player2.sayName();
-
+let player1 = Player("player1","X");
+let player2 = Player("player2","O");
 console.log(Gameboard.gameArray);
 
 document.addEventListener("click", function (event) {
@@ -166,7 +158,15 @@ restartButton.addEventListener("click", function (event) {
 });
 
 startButton.addEventListener("click",function(event) {
-    showGame();
+    let inputOne = document.getElementById("player1");
+    let inputTwo = document.getElementById("player2");
+    if(!(inputOne.value === "" || inputTwo.value ==="")) {
+        player1 = Player(inputOne.value,"X");
+        player2 = Player(inputTwo.value,"O");
+        console.log(player1.getName());
+        console.log(player2.getName());
+        showGame();
+    }
 });
 
 
